@@ -1,0 +1,208 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1f1f1f;
+    color: #f4f4f4;
+    overflow-x: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    transition: background 0.3s;
+}
+
+.navbar.sticky {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+    color: #00d1b2;
+}
+
+.logo {
+    color: #fff;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.landing {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: url('images/landing-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.landing h2 {
+    font-size: 4rem;
+    animation: slideIn 1s ease;
+}
+
+.landing p {
+    margin: 20px 0;
+    font-size: 1.5rem;
+}
+
+.btn {
+    background: #00d1b2;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 209, 178, 0.5);
+}
+
+.btn:hover {
+    background: #00a68a;
+    transform: translateY(-5px);
+}
+
+.about, .projects, .contact {
+    padding: 100px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.about.active, .projects.active, .contact.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about h2, .projects h2, .contact h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #00d1b2;
+}
+
+.project-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    animation: fadeIn 2s ease;
+}
+
+.project {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.project img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.project:hover img {
+    transform: scale(1.13);
+}
+
+.project h3 {
+    margin-top: 10px;
+    color: #00d1b2;
+}
+
+.project p {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.project:hover {
+    transform: translateY(-10px);
+    transform: scale(1.27);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.contact .btn {
+    background: #00d1b2;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 209, 178, 0.5);
+    margin-top: 20px; /* Added margin to create space between text and button */
+}
+
+.contact .btn:hover {
+    background: #00a68a;
+    transform: translateY(-5px);
+}
+
+.parallax {
+    background: url('images/parallax-bg.jpg') no-repeat center center/cover;
+    height: 400px;
+    position: relative;
+    background-attachment: fixed;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
