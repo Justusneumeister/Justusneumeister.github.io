@@ -1,3 +1,6 @@
+/* styles.css */
+
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -5,12 +8,76 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #1f1f1f;
     color: #f4f4f4;
     overflow-x: hidden;
+    position: relative;
 }
 
+canvas#lavaLampCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* UFO Styles */
+#ufo {
+    position: fixed;
+    left: 0; /* Start at (0,0) to allow smooth movement */
+    top: 0;
+    width: 70px; /* Halved from 140px */
+    height: 50px; /* Halved from 100px */
+    transform: translate(0, 0); /* Reset initial transform */
+    z-index: 1000;
+    pointer-events: none; /* So it doesn't interfere with clicks */
+    transition: left 0.05s ease, top 0.05s ease, transform 0.05s ease;
+}
+
+.ufo-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ufo-glass {
+    position: absolute;
+    top: 0%; /* Positioned at the very top */
+    left: 15%;
+    width: 70%; /* Adjusted to fit the smaller UFO */
+    height: 45%; /* Adjusted height */
+    background: radial-gradient(circle at 50% 50%, rgba(224, 247, 250, 0.9), rgba(129, 212, 250, 0.7));
+    border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+    box-shadow: inset -2.5px -2.5px 7.5px rgba(255, 255, 255, 0.2); /* Halved shadow */
+}
+
+.ufo-bottom {
+    position: absolute;
+    top: 45%; /* Positioned just below the glass dome */
+    left: 0;
+    width: 100%;
+    height: 45%; /* Adjusted height */
+    background: linear-gradient(to bottom, #cfd8dc, #90a4ae);
+    border-radius: 50%;
+    box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.3); /* Halved shadow */
+}
+
+.ufo-light {
+    position: absolute;
+    bottom: -7.5%; /* Positioned slightly below the bottom part */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12.5%; /* Halved width from 25% */
+    height: 12.5%; /* Halved height from 25% */
+    background: radial-gradient(circle at 50% 50%, #ffeb3b, #fbc02d);
+    border-radius: 50%;
+    box-shadow: 0 0 7.5px 3.75px rgba(255, 235, 59, 0.5); /* Halved shadow */
+}
+
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -54,13 +121,14 @@ body {
     text-transform: uppercase;
 }
 
+/* Landing Section */
 .landing {
+    position: relative;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background: url('images/landing-bg.jpg') no-repeat center center/cover;
     color: white;
     text-align: center;
     animation: fadeIn 2s ease-in-out;
@@ -69,6 +137,22 @@ body {
 .landing h2 {
     font-size: 4rem;
     animation: slideIn 1s ease;
+    position: relative;
+    color: #ffffff;
+    text-shadow: 0 0 100px rgba(0, 209, 178, 1), 0 0 200px rgba(0, 209, 178, 1), 0 0 300px rgba(0, 209, 178, 1);
+}
+
+.glow-banner {
+    position: absolute;
+    top: 49.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 150px;
+    background: rgba(0, 209, 178, 0.3);
+    box-shadow: 0 0 60px 40px rgba(0, 209, 178, 0.4);
+    border-radius: 25px;
+    z-index: -1;
 }
 
 .landing p {
@@ -85,6 +169,7 @@ body {
     border-radius: 50px;
     transition: background 0.3s ease, transform 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 209, 178, 0.5);
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -92,15 +177,30 @@ body {
     transform: translateY(-5px);
 }
 
+.landing-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -180px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Sections */
 .about, .projects, .contact {
-    padding: 100px 20px;
+    padding: 80px 20px;
     text-align: center;
+    position: relative;
+}
+
+.about .content, .projects .content, .contact .contact-content {
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.about.active, .projects.active, .contact.active {
+.about.active .content, .projects.active .content, .contact.active .contact-content {
     opacity: 1;
     transform: translateY(0);
 }
@@ -111,82 +211,429 @@ body {
     color: #00d1b2;
 }
 
+/* Portrait Image */
+.portrait {
+    width: 225px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #00d1b2;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0, 209, 178, 0.6);
+}
+
+/* About Me Section */
+.about {
+    background: url('images/about-bg.jpg') no-repeat center center/cover;
+}
+
+.about::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(31, 31, 31, 0.8);
+}
+
+.about .content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Glowing Separator Base Styles */
+.glowing-separator {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: none;
+    overflow: hidden;
+}
+
+.glowing-separator::before,
+.glowing-separator::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+
+.glowing-separator::before {
+    top: 22.5px;
+    height: 5px;
+    background: rgba(0, 209, 178, 0.35);
+    box-shadow: 0 0 15px rgba(0, 209, 178, 0.4);
+}
+
+.glowing-separator::after {
+    top: 0;
+    height: 50px;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 209, 178, 0) 0%,
+        rgba(0, 209, 178, 0.25) 50%,
+        rgba(0, 209, 178, 0) 100%
+    );
+}
+
+/* Ripple Effect for Top Separator */
+.glowing-separator.ripple::before {
+    overflow: hidden;
+    position: relative;
+}
+
+.glowing-separator.ripple::before::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 200%;
+    height: 150px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3), transparent 70%);
+    animation: ripple 10s infinite linear;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        transform: translateX(-50%) translateY(100%);
+    }
+}
+
+/* Breathing Effect for Bottom Separator */
+.glowing-separator.breathe::before {
+    animation: breathe 6s infinite;
+}
+
+.glowing-separator.breathe::after {
+    animation: breatheGradient 6s infinite;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        background: rgba(0, 209, 178, 0.25);
+        box-shadow: 0 0 15px rgba(0, 209, 178, 0.4);
+    }
+    50% {
+        background: rgba(0, 209, 178, 0.4);
+        box-shadow: 0 0 30px rgba(0, 209, 178, 0.6);
+    }
+}
+
+@keyframes breatheGradient {
+    0%, 100% {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 209, 178, 0) 0%,
+            rgba(0, 209, 178, 0.25) 50%,
+            rgba(0, 209, 178, 0) 100%
+        );
+    }
+    50% {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 209, 178, 0) 0%,
+            rgba(0, 209, 178, 0.4) 50%,
+            rgba(0, 209, 178, 0) 100%
+        );
+    }
+}
+
+/* Project Grid */
 .project-grid {
     display: flex;
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
-    animation: fadeIn 2s ease;
 }
 
+/* Project Cards */
 .project {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: 250px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+    background: rgba(50, 50, 50, 0.85);
+    border-radius: 15px;
     overflow: hidden;
-}
-
-.project img {
-    width: 100%;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-}
-
-.project:hover img {
-    transform: scale(1.13);
-}
-
-.project h3 {
-    margin-top: 10px;
-    color: #00d1b2;
-}
-
-.project p {
-    font-size: 0.9rem;
-    color: #ccc;
+    width: 300px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    margin: 20px;
+    position: relative;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .project:hover {
-    transform: translateY(-10px);
-    transform: scale(1.27);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transform: translateY(-15px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.6);
+}
+
+.project-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-content {
+    padding: 20px;
+}
+
+.project-content h3 {
+    color: #00d1b2;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.project-content h3::after {
+    content: '';
+    width: 100%;
+    height: 3px;
+    background: #00d1b2;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+}
+
+.project-content p {
+    color: #ddd;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+/* Hover animations for project cards */
+.project-content h3, .project-content p {
+    transition: color 0.3s ease;
+}
+
+.project:hover .project-content h3 {
+    color: #00a68a;
+}
+
+.project:hover .project-content p {
+    color: #ccc;
+}
+
+/* Project Details Popup */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+}
+
+.project-details {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1000px;
+    max-height: 90vh;
+    background: rgba(50, 50, 50, 0.95);
+    color: #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.project-details.active {
+    display: block;
+    opacity: 1;
+}
+
+.project-details img {
+    width: 56.25%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.project-details-content {
+    animation: fadeInUp 0.5s ease;
+}
+
+.project-details h3 {
+    color: #00d1b2;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.project-details h3::after {
+    content: '';
+    width: 100%;
+    height: 3px;
+    background: #00d1b2;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+}
+
+.project-details p {
+    color: #ddd;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.project-details a {
+    color: #00d1b2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.project-details a:hover {
+    color: #00a68a;
+}
+
+/* Video Wrapper */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 20px 0;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Custom Scrollbar Styles */
+.project-details::-webkit-scrollbar {
+    width: 12px;
+}
+
+.project-details::-webkit-scrollbar-track {
+    background: #2c2c2c;
+    border-radius: 10px;
+}
+
+.project-details::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00d1b2, #00a68a);
+    border-radius: 10px;
+}
+
+.project-details::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00a68a, #007f6c);
+}
+
+/* For Firefox */
+.project-details {
+    scrollbar-width: thin;
+    scrollbar-color: #00d1b2 #2c2c2c;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #fff;
+    z-index: 1001;
+}
+
+.close-btn:hover {
+    color: #00d1b2;
+}
+
+/* Prevent background scrolling when popup is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Specific styles for City Slickers project */
+.project-details.city-slickers img {
+    width: 84.375%;
+}
+
+.project-details.city-slickers .video-wrapper {
+    padding-bottom: 42.19%;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.project-details.city-slickers .video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+/* Contact Section */
+.contact {
+    background: url('images/contact-bg.jpg') no-repeat center center/cover;
+}
+
+.contact::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(31, 31, 31, 0.8);
+}
+
+.contact .contact-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #00d1b2;
+}
+
+.contact p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
 }
 
 .contact .btn {
-    background: #00d1b2;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 50px;
-    transition: background 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 209, 178, 0.5);
-    margin-top: 20px; /* Added margin to create space between text and button */
+    margin-top: 20px;
 }
 
-.contact .btn:hover {
-    background: #00a68a;
-    transform: translateY(-5px);
-}
-
-.parallax {
-    background: url('images/parallax-bg.jpg') no-repeat center center/cover;
-    height: 400px;
-    position: relative;
-    background-attachment: fixed;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #333;
-    color: white;
-}
-
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -204,5 +651,109 @@ footer {
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Parallax Section */
+.parallax {
+    background: url('images/parallax-bg.jpg') no-repeat center center/cover;
+    height: 200px;
+    position: relative;
+    background-attachment: fixed;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .about h2, .contact h2 {
+        font-size: 2.5rem;
+    }
+
+    .about p, .contact p {
+        font-size: 1rem;
+    }
+
+    .project {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .project-details {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .project-details h3 {
+        font-size: 1.8rem;
+    }
+
+    .project-details.city-slickers img {
+        width: 100%;
+    }
+
+    .project-details.city-slickers .video-wrapper {
+        max-width: 100%;
+        padding-bottom: 56.25%;
+    }
+
+    .portrait {
+        width: 170px;
+        height: 170px;
+    }
+
+    .glowing-separator {
+        height: 30px;
+    }
+
+    .glowing-separator::before {
+        top: 12.5px;
+    }
+
+    .glowing-separator::after {
+        height: 30px;
+    }
+
+    .glowing-separator.ripple::before::after {
+        top: -30px;
+        height: 90px;
+    }
+
+    /* Adjust UFO size for smaller screens */
+    #ufo {
+        width: 35px; /* Halved again for smaller screens */
+        height: 25px;
+    }
+
+    .ufo-glass {
+        top: 0%;
+        height: 40%;
+    }
+
+    .ufo-bottom {
+        top: 40%;
+        height: 40%;
+    }
+
+    .ufo-light {
+        width: 12.5%;
+        height: 12.5%;
     }
 }

@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Justus N - Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Link to Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Lava Lamp Canvas -->
+    <canvas id="lavaLampCanvas"></canvas>
+
+    <!-- UFO Element -->
+    <div id="ufo">
+        <!-- UFO Shape created with HTML and CSS -->
+        <div class="ufo-body">
+            <div class="ufo-glass"></div>
+            <div class="ufo-bottom"></div>
+            <div class="ufo-light"></div>
+        </div>
+    </div>
+
+    <!-- Header Section -->
     <header>
         <div class="navbar">
             <h1 class="logo">Justus Neumeister</h1>
@@ -20,60 +39,97 @@
             </nav>
         </div>
         <div class="landing">
+            <div class="glow-banner"></div>
             <h2>Welcome to My Portfolio</h2>
             <p>Check out my projects and see what I've been working on.</p>
+        </div>
+        <div class="landing-button-wrapper">
             <a href="#projects" class="btn">View Projects</a>
         </div>
     </header>
 
-    <section class="parallax"></section> <!-- Parallax scrolling background -->
+    <!-- Parallax Scrolling Background -->
+    <section class="parallax"></section>
 
+    <!-- About Me Section -->
     <section id="about" class="about">
-        <h2>About Me</h2>
-        <p>Hello! I'm Justus, a passionate developer with expertise in Software Engineering, Game Development, Artificial Intelligence, and much more. Here's a showcase of my favorite projects.</p>
-    </section>
-
-    <section id="projects" class="projects">
-        <h2>Projects</h2>
-        <br>
-        <br>
-
-        
-        <div class="project-grid">
-            <div class="project">
-                <img src="images/SelfDrivingCar.jpg" alt="Self-Driving Car" class="project-img">
-                <h3>Self-Driving Car</h3>
-                <p>Worked on a project with a group of students to create an extensive software design document for the modules & architecture for a self-driving car </p>
-            </div>
-            <div class="project">
-                <img src="images/pairproj2.webp" alt="PairProj" class="project-img">
-                <h3>PairProj</h3>
-                <p>Working alongside fellow graduates and mentors to launch a startup website poised to be an incubator for the steadily growing entry-level CS market</p>
-            </div>
-	<div class="project">
-                <img src="images/UnityAssetStore.jpg" alt="Game Dev Asset Sales" class="project-img">
-                <h3>Unity Asset Store Publisher</h3>
-                <p>After spending months designing my own physics-based character-controller, I decided to publish it on the Unity Asset Store for other devs to use! </p>
-            </div>
-	<div class="project">
-                <img src="images/CitySlickers.png" alt="City Slickers" class="project-img">
-                <h3>City Slickers</h3>
-                <p>Over the last 2+ years I have been developing a physics-based multiplayer sandbox/arcade game called City Slickers. Free demo on Steam, wishlist now!</p>
-            </div>
-            <!-- Add more projects as needed -->
+        <div class="content">
+            <img src="images/Portrait.png" alt="Portrait of Justus" class="portrait">
+            <h2>About Me</h2>
+            <p>Hello! I'm Justus, a passionate developer with expertise in Software Engineering, Game Development, Artificial Intelligence, and much more. Here's a showcase of my favorite projects.</p>
         </div>
     </section>
 
-    <section id="contact" class="contact">
-        <h2>Contact Me</h2>
+    <!-- Glowing Separator with Ripple Effect -->
+    <div class="glowing-separator ripple"></div>
 
-        <a href="mailto:jneumeisterw@example.com" class="btn">Get in Touch</a>
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2>Projects</h2>
+        <div class="project-grid">
+            <div class="project">
+                <img src="images/SelfDrivingCar.jpg" alt="Self-Driving Car" class="project-img">
+                <div class="project-content">
+                    <h3>Self-Driving Car</h3>
+                    <p>Worked on a project with a group of students to create an extensive software design document for the modules & architecture for a self-driving car.</p>
+                </div>
+            </div>
+            <div class="project">
+                <img src="images/pairproj2.webp" alt="PairProj" class="project-img">
+                <div class="project-content">
+                    <h3>PairProj</h3>
+                    <p>Working alongside fellow graduates and mentors to launch a startup website poised to be an incubator for the steadily growing entry-level CS market.</p>
+                </div>
+            </div>
+            <div class="project">
+                <img src="images/UnityAssetStore.jpg" alt="Game Dev Asset Sales" class="project-img">
+                <div class="project-content">
+                    <h3>Unity Asset Store Publisher</h3>
+                    <p>After spending months designing my own physics-based character-controller, I decided to publish it on the Unity Asset Store for other devs to use!</p>
+                </div>
+            </div>
+            <div class="project">
+                <img src="images/CitySlickers.png" alt="City Slickers" class="project-img">
+                <div class="project-content">
+                    <h3>City Slickers</h3>
+                    <p>Over the last 2+ years I have been developing a physics-based multiplayer sandbox/arcade game called City Slickers. Free demo on Steam, wishlist now!</p>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- Project Details Popup -->
+    <div class="overlay"></div>
+    <div id="project-details" class="project-details">
+        <span id="close-details" class="close-btn">&times;</span>
+        <div class="project-details-content">
+            <h3 id="details-title">Project Title</h3>
+            <img id="details-image" src="" alt="Project Image">
+            <p id="details-description">Project description goes here.</p>
+            <p><strong>Role:</strong> <span id="details-role">Developer</span></p>
+            <p><strong>Link:</strong> <a href="#" id="details-link" target="_blank">Visit Project</a></p>
+            <div id="video-container"></div>
+        </div>
+    </div>
+
+    <!-- Glowing Separator with Breathing Effect -->
+    <div class="glowing-separator breathe"></div>
+
+    <!-- Contact Me Section -->
+    <section id="contact" class="contact">
+        <div class="contact-content">
+            <h2>Contact Me</h2>
+            <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out to me!</p>
+            <a href="mailto:jneumeisterw@example.com" class="btn">Get in Touch</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <p>&copy; 2024 My Portfolio. All rights reserved.</p>
     </footer>
 
+    <!-- Link to JavaScript File -->
     <script src="scripts.js"></script>
 </body>
 </html>
