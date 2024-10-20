@@ -119,7 +119,7 @@ ufoElement.style.top = `${ufoY}px`;
 function animateUfo() {
     // Desired offset distances
     const followOffset = 350; // Follow when beyond 350px
-    const repelThreshold = 150; // Repel when within 150px
+    const repelThreshold = 250; // Repel when within 150px
 
     // Calculate the distance between UFO and mouse
     const dx = mouseXPos - ufoX;
