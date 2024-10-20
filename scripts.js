@@ -109,13 +109,17 @@ canvas.addEventListener('mousemove', (e) => {
 const ufoElement = document.getElementById('ufo');
 let mouseXPos = window.innerWidth / 2;
 let mouseYPos = window.innerHeight / 2;
-let ufoX = mouseXPos - 250; // Adjusted initial offset
+let ufoX = mouseXPos - 250; // Initial offset
 let ufoY = mouseYPos - 250;
 
+// Initialize UFO position
+ufoElement.style.left = `${ufoX}px`;
+ufoElement.style.top = `${ufoY}px`;
+
 function animateUfo() {
-    // Desired offset distance from the cursor
-    const followOffset = 550; // Set to 450px as per user preference
-    const repelThreshold = 300; // Set to 200px for repelling
+    // Desired offset distances
+    const followOffset = 350; // Follow when beyond 350px
+    const repelThreshold = 150; // Repel when within 150px
 
     // Calculate the distance between UFO and mouse
     const dx = mouseXPos - ufoX;
@@ -123,11 +127,11 @@ function animateUfo() {
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance > followOffset) {
-        // Follow behavior: Move towards the desired position at followOffset
+        // Calculate normalized direction vector
         const dirX = dx / distance;
         const dirY = dy / distance;
 
-        // Desired position at the offset distance
+        // Desired position at the followOffset distance away from the cursor
         const desiredX = mouseXPos - dirX * followOffset;
         const desiredY = mouseYPos - dirY * followOffset;
 
@@ -135,7 +139,7 @@ function animateUfo() {
         ufoX += (desiredX - ufoX) * 0.05; // Adjust the 0.05 for smoothing speed
         ufoY += (desiredY - ufoY) * 0.05;
     } else if (distance < repelThreshold) {
-        // Repel behavior: Move away from the mouse
+        // Repel the UFO away from the mouse
         const repelDistance = repelThreshold - distance; // How much to repel
         const repelFactor = 0.05; // Repelling strength
 
@@ -146,8 +150,12 @@ function animateUfo() {
         // Apply repulsion
         ufoX += repelDirX * repelDistance * repelFactor;
         ufoY += repelDirY * repelDistance * repelFactor;
+    } else {
+        // Within the range between repelThreshold and followOffset
+        // Lag behind scrolling by slightly adjusting position
+        ufoX += (mouseXPos - ufoX) * 0.02;
+        ufoY += (mouseYPos - ufoY) * 0.02;
     }
-    // Between 200px and 450px: No action
 
     // Update the UFO's position
     ufoElement.style.left = `${ufoX}px`;
@@ -167,9 +175,18 @@ animateUfo();
 // Project details popup functionality
 document.querySelectorAll('.project').forEach(project => {
     project.addEventListener('click', function() {
-        const title = this.querySelector('.project-content h3').innerText;
-        const description = this.querySelector('.project-content p').innerText;
-        const imageSrc = this.querySelector('img').src;
+        const titleElement = this.querySelector('.project-content h3');
+        const descriptionElement = this.querySelector('.project-content p');
+        const imageElement = this.querySelector('img');
+
+        if (!titleElement || !descriptionElement || !imageElement) {
+            console.error('Project card is missing required elements.');
+            return;
+        }
+
+        const title = titleElement.innerText;
+        let description = descriptionElement.innerText;
+        const imageSrc = imageElement.src;
         let role = 'Developer'; // Default role
         let link = '#'; // Default link
         let videoEmbedCode = ''; // Initialize video embed code
@@ -186,27 +203,65 @@ document.querySelectorAll('.project').forEach(project => {
             link = 'https://store.steampowered.com/app/123456/City_Slickers'; // Replace with actual link
             // Add a specific class to the project-details for City Slickers
             projectDetails.classList.add('city-slickers');
-            // YouTube embed code
+            // YouTube embed code for City Slickers
             videoEmbedCode = `
                 <div class="video-wrapper">
                     <iframe src="https://www.youtube.com/embed/vhejg10rmlc?si=f_IwqTdUb9q2R1Lb" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             `;
         }
-        // Add else if blocks for other projects if needed
-        else {
-            // Set role and link for other projects as needed
-            role = 'Developer';
-            link = '#';
-            videoEmbedCode = ''; // No video for other projects
+        else if (title === 'Self-Driving Car') {
+            role = 'Software Designer';
+            link = 'https://docs.google.com/document/d/1DUHwF2S4vL4BzJcBkx15NuihFc0dnZ4wkpQAl7hP40U/edit?usp=sharing';
+            // No video embed for this project
+            videoEmbedCode = ''; // Ensure no videos are embedded
         }
+        else if (title === 'Unity Asset Store Publisher') {
+            role = 'Publisher & Developer';
+            link = 'https://assetstore.unity.com/packages/slug/235075';
+            // Embed three YouTube videos
+            videoEmbedCode = `
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/yplmEZ42d-M?si=EyW6APcffix9AJxz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/d31y0JOtRTk?si=o_TqygzJa8sz1wT4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/4P3gw2nXemI?si=-IGjYkOzkFAb4YUE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            `;
+        }
+        else if (title === 'PairProj') {
+            role = 'Collaborator';
+            link = '#'; // No live site, so link is not applicable
+            description = 'Work in Progress.';
+            // No video embed for this project
+            videoEmbedCode = ''; // Ensure no videos are embedded
+        }
+        // Add else if blocks for other projects if needed
 
         // Populate the project details
         document.getElementById('details-title').innerText = title;
         document.getElementById('details-description').innerText = description;
         document.getElementById('details-image').src = imageSrc;
         document.getElementById('details-role').innerText = role;
-        document.getElementById('details-link').href = link;
+
+        if (link !== '#') {
+            const detailsLink = document.getElementById('details-link');
+            detailsLink.href = link;
+            detailsLink.innerText = 'Visit Project';
+            detailsLink.style.display = 'inline'; // Ensure link is visible
+            detailsLink.target = '_blank'; // Open in new tab
+            detailsLink.rel = 'noopener noreferrer'; // Security reasons
+        } else {
+            const detailsLink = document.getElementById('details-link');
+            detailsLink.href = '#';
+            detailsLink.innerText = 'Coming Soon';
+            detailsLink.style.display = 'inline'; // Show as text link
+            detailsLink.removeAttribute('target');
+            detailsLink.removeAttribute('rel');
+        }
 
         // Insert the video embed code
         document.getElementById('video-container').innerHTML = videoEmbedCode;

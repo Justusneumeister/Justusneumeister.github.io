@@ -34,7 +34,7 @@ canvas#lavaLampCanvas {
     transform: translate(0, 0); /* Reset initial transform */
     z-index: 1000;
     pointer-events: none; /* So it doesn't interfere with clicks */
-    transition: left 0.05s ease, top 0.05s ease, transform 0.05s ease;
+    transition: left 0.1s ease, top 0.1s ease, transform 0.1s ease; /* Increased transition duration for smoother stopping */
 }
 
 .ufo-body {
@@ -371,6 +371,7 @@ canvas#lavaLampCanvas {
     margin: 20px;
     position: relative;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer; /* Indicates that the project card is clickable */
 }
 
 .project:hover {
@@ -462,7 +463,7 @@ canvas#lavaLampCanvas {
 }
 
 .project-details img {
-    width: 56.25%;
+    width: 56.25%; /* 16:9 Aspect Ratio */
     height: auto;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -513,7 +514,7 @@ canvas#lavaLampCanvas {
 /* Video Wrapper */
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     height: 0;
     overflow: hidden;
     max-width: 100%;
@@ -577,12 +578,12 @@ body.modal-open {
 
 /* Specific styles for City Slickers project */
 .project-details.city-slickers img {
-    width: 84.375%;
+    width: 56.25%; /* Match the general image size */
 }
 
 .project-details.city-slickers .video-wrapper {
-    padding-bottom: 42.19%;
-    max-width: 75%;
+    padding-bottom: 56.25%; /* Ensure same aspect ratio */
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
